@@ -1,0 +1,9 @@
+{
+  "name": "daoanhdoan/session_expire",
+  "description": "Session Expire - Expires rows from the session table older than a certain time.",
+  "type": "drupal-custom-module",
+  "license":"GPL-2.0",
+  "extra": {
+    "installer-name": "session_expire"
+  }
+}

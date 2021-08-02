@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Expires rows from the session table older than a certain time.
+ *
+ * @copyright Copyright 2007 Khalid Baheyeldin http://2bits.com
+ */
+
+use Drupal\Core\Logger\RfcLogLevel;
+
+/**
+ * Implements @see hook_cron().
+ */
+function session_expire_cron() {
+  $config = \Drupal::configFactory()->getEditable('session_expire.settings');
+  // Check if it is the first time this hook fires
+  $last_run_time = $config->get('last');
+  $request_time = \Drupal::time()->getRequestTime();
+  if (!$last_run_time) {
+    // Set the time
+    $config->set('last', $request_time);
+  }
+
+  // Check if we should run, this should only be once a day
+  if ($request_time > $last_run_time + $config->get('interval')) {
+    $timestamp = $request_time - $config->get('age');
+
+    // Perform the deletion
+    //db_query("DELETE FROM {sessions} WHERE timestamp < %d $extra_cond", $timestamp);
+    $query =\Drupal::database()->delete('sessions');
+    $query->condition('timestamp', $timestamp, '<');
+
+    // Check if we should delete anonymous only or both anonymous and authenticated users
+    $mode = $config->get('mode');
+    if (!$mode) {
+      $query->condition('uid', '0', '=');
+    }
+    $num_updated = $query->execute();
+
+    // Write to the watchdog
+    if ($config->get('log')) {
+      \Drupal::logger('session_expire')->log(RfcLogLevel::INFO, 'Number of sessions deleted: ' . $num_updated);
+    }
+
+    // Set the last time we deleted
+    $config->set('last', $request_time)->save();
+  }
+}

@@ -1,0 +1,18 @@
+session_expire.settings:
+  type: config_object
+  mapping:
+    inteval:
+      type: integer
+      label: 'Interval'
+    age:
+      type: integer
+      label: 'Age'
+    mode:
+      type: integer
+      label: 'Mode'
+    last:
+      type: integer
+      label: 'Mode'
+    log:
+      type: boolean
+      label: 'Log'

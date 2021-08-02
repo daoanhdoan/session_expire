@@ -1,0 +1,7 @@
+session_expire.settings:
+  path: admin/config/system/session_expire
+  defaults:
+    _form: \Drupal\session_expire\Form\SessionExpireSettingsForm
+    _title: 'Session expire'
+  requirements:
+    _permission: 'administer site configuration'

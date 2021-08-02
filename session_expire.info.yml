@@ -1,0 +1,5 @@
+name: Session Expire
+type: module
+description: Expires rows from the session table older than a certain time.
+core_version_requirement: ^9
+

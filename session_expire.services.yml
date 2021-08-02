@@ -1,0 +1,5 @@
+services:
+    session_expire:
+        class: Drupal\session_expire\EventSubscriber\SessionExpireSubscriber
+        tags:
+            - {name: event_subscriber}

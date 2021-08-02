@@ -1,0 +1,5 @@
+session_expire:settings:
+  title: 'Session Expire'
+  route_name: session_expire.settings
+  description: 'Settings for session expiry'
+  parent: system.admin_config_system
